@@ -1,3 +1,4 @@
+import java.util.Locale;
 import java.util.Scanner;
 
     public class Adventure{
@@ -18,6 +19,8 @@ import java.util.Scanner;
             Room room7 = new Room("Room 7", "");
             Room room8 = new Room("Room 8", "");
             Room room9 = new Room("Room 9", "");
+
+            currentRoom = room1;
 
             room1.setEast(room2);
             room1.setSouth(room4);
@@ -45,26 +48,82 @@ import java.util.Scanner;
             room9.setWest(room8);
             room9.setNorth(room6);
 
+            System.out.println("\nSpawn location: Room 1");
+            System.out.println("What would you like to do?");
+            System.out.println("---Type help to view the possible commands---");
+
+
+
+
         }
 
-        public void play (){
+        public void play () {
             Scanner userInput = new Scanner(System.in);
-            String userChoice = userInput.nextLine();
 
+            Scanner scanner = new Scanner(System.in);
+            String command;
 
-            while ()
+            System.out.println("Welcome to the adventure game!");
+            printHelp();
+            System.out.println("You are in " + currentRoom.getName());
+            System.out.println(currentRoom.getDescription());
 
-            switch (userChoice){
-                case "go north", "go n":
-                    if (!(currentRoom.getEast()==null)){
+            while (true) {
+                System.out.print("> ");
+                command = scanner.nextLine().toLowerCase();
 
-                    }
+                if (command.equals("exit")) {
+                    System.out.println("Thanks for playing!");
+                    break;
+                } else if (command.equals("look")) {
+                    System.out.println("You are in " + currentRoom.getName());
+                    System.out.println(currentRoom.getDescription());
+                } else if (command.equals("help")) {
+                    printHelp();
+                } else if (command.startsWith("go ")) {
+                    move(command.substring(3));
+                } else {
+                    System.out.println("Unknown command! Type 'help' for a list of commands.");
+                }
+            }
+            scanner.close();
+        }
 
+        private void move(String direction) {
+            Room nextRoom = null;
+
+            switch (direction) {
+                case "north":
+                    nextRoom = currentRoom.getNorth();
+                    break;
+                case "east":
+                    nextRoom = currentRoom.getEast();
+                    break;
+                case "south":
+                    nextRoom = currentRoom.getSouth();
+                    break;
+                case "west":
+                    nextRoom = currentRoom.getWest();
+                    break;
+                default:
+                    System.out.println("Invalid direction! Type 'help' for a list of commands.");
+                    return;
             }
 
-
-            while(true){
+            if (nextRoom != null) {
+                currentRoom = nextRoom;
+                System.out.println("You are in " + currentRoom.getName());
+                System.out.println(currentRoom.getDescription());
+            } else {
+                System.out.println("You cannot go that way.");
+            }
+        }
+            private void printHelp () {
+                System.out.println("Commands:");
+                System.out.println("- go north/east/south/west: Move in a direction.");
+                System.out.println("- look: Show description of the current room.");
+                System.out.println("- help: Show this help message.");
+                System.out.println("- exit: Exit the game.");
 
             }
         }
-}
