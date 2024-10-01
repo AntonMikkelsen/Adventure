@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import static java.nio.file.Files.move;
 import static java.nio.file.Files.readString;
@@ -6,24 +7,23 @@ public class UserInterface {
     private Adventure adventure;
     Adventure adv = new Adventure();
 
-    public void UserInterface() {
-        this.adv = adventure;
+//    public void UserInterface() {
+//        this.adv = adventure;
+//    }
+        public void play () {
+            Scanner scanner = new Scanner(System.in);
+            String command = "";
 
+
+            System.out.println("Welcome to the adventure game!");
+            System.out.println("You are in " + adv.getCurrentRoomName());
+            System.out.println(adv.getCurrentRoomDescription());
 
             System.out.println("Commands:");
             System.out.println("- go north/east/south/west: Move in a direction.");
             System.out.println("- look: Show description of the current room.");
             System.out.println("- help: Show this help message.");
             System.out.println("- exit: Exit the game.");
-
-
-        public void play () {
-            Scanner scanner = new Scanner(System.in);
-            String command = "";
-
-            System.out.println("Welcome to the adventure game!");
-            System.out.println("You are in " + adv.getCurrentRoomName());
-            System.out.println(adv.getCurrentRoomDescription());
 
             System.out.println("What would you like to do?");
 
@@ -36,28 +36,45 @@ public class UserInterface {
                 command = scanner.nextLine();
 
                 switch (command) {
-                    case "north":
+                    case "north", "n":
                         adv.getPlayer().goNorth();
-
+                        System.out.println(adv.move(command));
                         break;
-                    case "east":
+
+                    case "east", "e":
                         adv.getPlayer().goEast();
+                        System.out.println(adv.move(command));
                         break;
-                    case "south":
+
+                    case "south", "s":
                         adv.getPlayer().goSouth();
+                        System.out.println(adv.move(command));
                         break;
-                    case "west":
+
+                    case "west", "w":
                         adv.getPlayer().goWest();
+                        System.out.println(adv.move(command));
                         break;
 
-                    case "help":
+                    case "help", "h":
+                        System.out.println("- go north/east/south/west: Move in a direction.");
+                        System.out.println("- look: Show description of the current room.");
+                        System.out.println("- help: Show this help message.");
+                        System.out.println("- exit: Exit the game.");
+                        break;
 
-                    case "look":
+                    case "look", "l":
+                        System.out.println("You look around and realize you are in " + adv.getCurrentRoomName() + "\n The room can be described with the following" + adv.getCurrentRoomDescription());
+                        break;
+
+                    case "exit":
+                        System.out.println("thanks for playing!");
+                        break;
+
                     default:
                         System.out.println("Invalid direction! Type 'help' for a list of commands.");
                         return;
                 }
-
 
 
 //                if (command.equals("exit")) {
@@ -69,17 +86,21 @@ public class UserInterface {
 //                } else if (command.equals("help")) { //hvis spilleren skriver "help", får de en liste af mulige kommandoer.
 //                    UserInterface.printHelp();
 //                } else if (command.startsWith("go ")) {
-//                    move(command.substring(3));
+//                    adventure.getPlayer().move(command.substring(3)); // Behandler bevægelse
+//                    System.out.println("You are in " + adventure.getCurrentRoomName());
+//                    System.out.println(adventure.getCurrentRoomDescription());
 //                } else {
 //                    System.out.println("Unknown command! Type 'help' for a list of commands.");
 //                }
+//
 //            }
 //            scanner.close();
+            }
+
+//        private void move (String substring){
+//            System.out.println("you moved to " + adv.getCurrentRoomName());
+//            System.out.println(adv.getCurrentRoomDescription());
+//        }
         }
 
-        private void move (String substring){
-            System.out.println("you moved to " + adv.getCurrentRoomName());
-            System.out.println(adv.getCurrentRoomDescription());
-        }
     }
-}
