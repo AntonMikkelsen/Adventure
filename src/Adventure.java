@@ -1,4 +1,7 @@
+import java.io.ObjectInputStream;
 import java.util.Scanner;
+
+
 
 
 public class Adventure {
@@ -6,10 +9,14 @@ public class Adventure {
     Player player;
 
 
+
+
     public Adventure() {
         map = new Map();
-        player = new Player(map.getCurrentRoom(), 100);
+        player = new Player(map.getCurrentRoom(), 50);
     }
+
+
 
 
     public Player getPlayer() {
@@ -17,9 +24,13 @@ public class Adventure {
     }
 
 
+
+
     public Room move(String direction) {
         return player.move(direction);
     }
+
+
 
 
     public String getCurrentRoomName() {
@@ -27,25 +38,88 @@ public class Adventure {
     }
 
 
+    public double seeHealth(){
+        return player.getPlayerHealth();
+    }
+
+
+
+
     public String getCurrentRoomDescription() {
         return player.getCurrentRoom().getDescription();
     }
 
+
     public String eat(String foodName) {
         FoodType status = player.eat(foodName);
-        switch (status) {
-            case GOOD:
-                return "You ate the " + foodName + "!" + " You gained " + player.getHealth() + " healthpoints.";
-            case BAD:
-                return "That wasn't good..." + "you just lost health :( Current health:" + player.getHealth() + " healthpoints";
-            case NOT_FOOD:
-                return "You cannot eat that!";
-            case NOT_HERE:
-                return "There is no such thing as " + foodName + " in your inventory or in this room.";
-
-            default:
-                return "Invalid input!";
-
-        }
+        return switch (status) {
+            case GOOD -> "You ate the " + foodName + "!" + " You gained " + player.getPlayerHealth() + " healthpoints.";
+            case BAD -> "That wasn't good..." + "you just lost health :( Current health:" + player.getPlayerHealth() + " healthpoints";
+            case NOT_FOOD -> "You cannot eat that!";
+            case NOT_HERE -> "There is no such thing as " + foodName + " in your inventory or in this room.";
+            default -> "Invalid input!";
+        };
     }
+
+
+    public String equip(String equipmentName) {
+        WeaponStatus status = player.equip(equipmentName);
+        return switch (status) {
+            case WEAPON -> "you equipped" + equipmentName + player.getCurrentEquippedItem();
+            case NOT_WEAPON -> "this item is not a weapon, it can therefore not be equipped";
+            case NOT_IN_INVENTORY -> "you need to pick up the item before you can equip it";
+            default -> "invalid input";
+        };
+    }
+//    public Item seeCurrentEquipped() {
+//        return player.getCurrentEquipped();
+//    }
+//
+//    public String attack(Enemy enemy) {
+//        WeaponStatus status = player.attack();
+//        switch (status) {
+//            case NOTHING_EQUIPPED:
+//                return "Nothing is equipped so you cannot attack";
+//
+//            case USED:
+//                enemy.hit(player.getCurrentEquippedItem().get());
+//                player.playerHit(enemy.getWeapon().getDamage());
+//
+//                if (enemy.getHealthPoints() < 1) {
+//                    Item droppedWeapon = enemy.getWeapon();
+//                    player.getPlacement().addItem(droppedWeapon);
+//                    player.getPlacement().removeEnemy(enemy);
+//                    return "You just used the " + seeCurrentEquipped().getShortName().toLowerCase(Locale.ROOT) + " and dealt "
+//                            + player.getCurrentWeapon().getDamage() +
+//                            " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
+//                            + enemy.getWeapon().getDamage() + " damage!" +
+//                            "You defeated the enemy and it dropped a " + droppedWeapon.getShortName() +
+//                            "\nYou now have " + player.getPlayerHealth() + " HP left.";
+//
+//
+//                }
+//
+//                return "You just used the " + seeCurrentEquipped().getShortName().toLowerCase(Locale.ROOT) + " and dealt "
+//                        + player.getCurrentWeapon().getDamage() +
+//                        " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
+//                        + enemy.getWeapon().getDamage() + " damage!" +
+//                        "\nYou now have " + player.getPlayerHealth() + " HP left.";
+//
+//
+//            case NO_AMMO_LEFT:
+//                return "No uses left.";
+//            default:
+//
+//                return "invalid input!";
+//        }
+//
+//    }
+//
+//    public boolean playerDead() {
+//        if (player.getPlayerHealth()<=0){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
 }

@@ -1,36 +1,77 @@
 import java.util.ArrayList;
 
 
+
+
 public class Player {
     private Room currentRoom;
     ArrayList<Item> inventory = new ArrayList<>();
+    private ArrayList<Item> equipped = new ArrayList<>();
     private double health = 50;
+    private final double maxHealth;
+    private Weapon currentEquipped;
+    private Boolean playerDead = false;
+
+
 
 
     public Player(Room firstRoom, double health){
-        this.health = health;
+        this.health = 50;
+        this.maxHealth = health;
         currentRoom = firstRoom;
         this.inventory = new ArrayList<>();
     }
+
+
+    public ArrayList<Item> getEquipped() {
+        return equipped;
+    }
+
+
 
 
     public Room getCurrentRoom(){
         return currentRoom;
     }
 
-    public double getHealth(){
+
+    public void increaseHealth(double increase) {
+        health+= increase;
+
+
+        if(health > maxHealth){
+            health = maxHealth;
+        }
+    }
+
+
+    public void decreaseHealth(double decrease) {
+        health = getPlayerHealth() - (decrease);
+
+
+        if (health < 0) {
+            health = 0;
+        }
+    }
+
+
+    public double getPlayerHealth() {
         return health;
     }
 
-    public double consume (Food food){
+
+    public double eat (Food food){
         health += food.getHealth();
 
-        if (health > 100){
-            health = 100;
+
+        if (health > 50){
+            health = 50;
         }
+
 
         return health;
     }
+
 
     public Room move (String direction){
         Room nextRoom = null;
@@ -64,19 +105,17 @@ public class Player {
         return null;
     }
 
-
     public String takeItem(String itemName){
         Item foundItem = currentRoom.findItem(itemName);
-
         if (foundItem != null) {
             inventory.add(foundItem);
             currentRoom.removeItem(foundItem);
             return "You take " + itemName + " from " + currentRoom.getName();
         } else return "There is no such item in " + currentRoom.getName();
     }
+
     public String dropItem(String itemName){
         Item foundItem = findIteminventory(itemName);
-
         if (foundItem != null) {
             inventory.remove(foundItem);
             currentRoom.addItem(foundItem);
@@ -92,8 +131,81 @@ public class Player {
         return null;
     }
 
+    public Item getCurrentEquippedItem(){
+        return currentEquipped;
+    }
+
+    public WeaponStatus equip(String weaponName){
+        Item weaponEquip = findIteminventory(weaponName);
+        if (weaponEquip == null) {
+            return WeaponStatus.NOT_IN_INVENTORY;
+        }
+        if (weaponEquip instanceof Weapon) {
+            Weapon weapon = (Weapon) weaponEquip;
+//          inventory.remove(weapon);
+            equipped.add(weapon);
+            currentEquipped = weapon;
+            return WeaponStatus.WEAPON;
+        } else { //if (!(weaponEquip instanceof Weapon))
+            return WeaponStatus.NOT_WEAPON;
+        }
+    }
+
+
+    public WeaponStatus attack(){
+        if(currentEquipped == null){
+            return WeaponStatus.NOTHING_EQUIPPED;
+        }
+        if (currentEquipped.getDurability() > 0) {
+            currentEquipped.useWeapon();
+            return WeaponStatus.USED;
+        } else if (currentEquipped.getDurability() < 0) {
+            return WeaponStatus.NO_AMMO_LEFT;
+        }
+        return WeaponStatus.NOT_WEAPON;
+    }
+
+
+    public FoodType eat (String foodName){
+        Item itemToEat = findIteminventory(foodName);
+        if (itemToEat == null) {
+            itemToEat = currentRoom.findItem(foodName);
+            if (itemToEat == null) {
+                return FoodType.NOT_HERE; // Mad findes ikke
+            }
+        }
+        if (itemToEat instanceof Food) {
+            Food food = (Food) itemToEat;
+            if (food.getHealth() > 0) {
+                increaseHealth(food.getHealth());
+                inventory.remove(food);
+                currentRoom.removeItem(food);
+                return FoodType.GOOD;
+            } else if (food.getHealth() < 0) {
+                decreaseHealth(-food.getHealth());
+                inventory.remove(food);
+                currentRoom.removeItem(food);
+                return FoodType.BAD;
+            } else { //if (!(itemToEat instanceof Food))
+                return FoodType.NOT_FOOD;
+            }
+        }
+        return FoodType.NOT_FOOD;
+
+
+    }
+
+    public void isPlayerDead() {
+        if (getPlayerHealth() < 0) {
+            playerDead = true;
+        }
+    }
+
+
     @Override
     public String toString(){
         return "health is equal to: " + health;
     }
+
+
 }
