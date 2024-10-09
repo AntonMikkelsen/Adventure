@@ -1,30 +1,24 @@
 public abstract class Weapon extends Item{
 
-
+    private String name;
     private double damage;
-    private double durability;
 
 
-    public Weapon (String name, String description, double damage, double durability){
+    public Weapon (String name, String description, double damage){
         super(name, description);
         this.damage = damage;
-        this.durability = durability;
+        this.name = name;
     }
 
+    public abstract boolean canUse();
+    public abstract void use();
 
-    public double getDamage() {
+    public String getName(){
+        return this.name;
+    }
+
+    public double getDamage(){
         return damage;
     }
-
-
-    public double getDurability() {
-        return durability;
-    }
-
-
-    public void useWeapon(){
-        durability--;
-    }
-
 
 }

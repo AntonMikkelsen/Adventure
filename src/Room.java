@@ -81,7 +81,7 @@ public class Room {
 
     public Item findItem(String itemName) {
         for (Item item : items) {
-            if (item.getName().equals(itemName)) {
+            if (item.getName() != null && item.getName().equalsIgnoreCase(itemName)) {
                 return item;
             }
         }
@@ -100,7 +100,7 @@ public class Room {
         if (enemies.isEmpty()){
             return null;
         }
-        return enemies.get(0);
+        return enemies.getFirst();
     }
 
     public ArrayList<Enemy> getEnemies() {

@@ -59,6 +59,10 @@ public class Player {
         return health;
     }
 
+    public void playerHit(double playerHitDamage){
+        health -= playerHitDamage;
+    }
+
 
     public double eat (Food food){
         health += food.getHealth();
@@ -135,6 +139,10 @@ public class Player {
         return currentEquipped;
     }
 
+    public Weapon getCurrentWeapon(){
+        return currentEquipped;
+    }
+
     public WeaponStatus equip(String weaponName){
         Item weaponEquip = findIteminventory(weaponName);
         if (weaponEquip == null) {
@@ -152,17 +160,16 @@ public class Player {
     }
 
 
-    public WeaponStatus attack(){
-        if(currentEquipped == null){
+    public WeaponStatus attack() {
+        Weapon weapon = currentEquipped;
+        if (weapon == null) {
             return WeaponStatus.NOTHING_EQUIPPED;
-        }
-        if (currentEquipped.getDurability() > 0) {
-            currentEquipped.useWeapon();
+        } else if (weapon.canUse()) {
+            weapon.use();
             return WeaponStatus.USED;
-        } else if (currentEquipped.getDurability() < 0) {
+        } else {
             return WeaponStatus.NO_AMMO_LEFT;
         }
-        return WeaponStatus.NOT_WEAPON;
     }
 
 
@@ -171,7 +178,7 @@ public class Player {
         if (itemToEat == null) {
             itemToEat = currentRoom.findItem(foodName);
             if (itemToEat == null) {
-                return FoodType.NOT_HERE; // Mad findes ikke
+                return FoodType.NOT_HERE;
             }
         }
         if (itemToEat instanceof Food) {
@@ -200,12 +207,4 @@ public class Player {
             playerDead = true;
         }
     }
-
-
-    @Override
-    public String toString(){
-        return "health is equal to: " + health;
-    }
-
-
 }

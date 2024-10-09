@@ -42,9 +42,6 @@ public class Adventure {
         return player.getPlayerHealth();
     }
 
-
-
-
     public String getCurrentRoomDescription() {
         return player.getCurrentRoom().getDescription();
     }
@@ -71,55 +68,61 @@ public class Adventure {
             default -> "invalid input";
         };
     }
-//    public Item seeCurrentEquipped() {
-//        return player.getCurrentEquipped();
-//    }
-//
-//    public String attack(Enemy enemy) {
-//        WeaponStatus status = player.attack();
-//        switch (status) {
-//            case NOTHING_EQUIPPED:
-//                return "Nothing is equipped so you cannot attack";
-//
-//            case USED:
-//                enemy.hit(player.getCurrentEquippedItem().get());
-//                player.playerHit(enemy.getWeapon().getDamage());
-//
-//                if (enemy.getHealthPoints() < 1) {
-//                    Item droppedWeapon = enemy.getWeapon();
-//                    player.getPlacement().addItem(droppedWeapon);
-//                    player.getPlacement().removeEnemy(enemy);
-//                    return "You just used the " + seeCurrentEquipped().getShortName().toLowerCase(Locale.ROOT) + " and dealt "
-//                            + player.getCurrentWeapon().getDamage() +
-//                            " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
-//                            + enemy.getWeapon().getDamage() + " damage!" +
-//                            "You defeated the enemy and it dropped a " + droppedWeapon.getShortName() +
-//                            "\nYou now have " + player.getPlayerHealth() + " HP left.";
-//
-//
-//                }
-//
-//                return "You just used the " + seeCurrentEquipped().getShortName().toLowerCase(Locale.ROOT) + " and dealt "
-//                        + player.getCurrentWeapon().getDamage() +
-//                        " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
-//                        + enemy.getWeapon().getDamage() + " damage!" +
-//                        "\nYou now have " + player.getPlayerHealth() + " HP left.";
-//
-//
-//            case NO_AMMO_LEFT:
-//                return "No uses left.";
-//            default:
-//
-//                return "invalid input!";
-//        }
-//
-//    }
-//
-//    public boolean playerDead() {
-//        if (player.getPlayerHealth()<=0){
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
+
+    public Enemy seeEnemies(){
+        for (Enemy enemy : player.getCurrentRoom().getEnemies()){
+            return enemy;
+        }
+        return null;
+    }
+
+
+    public Item seeCurrentEquipped() {
+        return player.getCurrentEquippedItem();
+    }
+
+    public String attack(Enemy enemy) {
+        WeaponStatus status = player.attack();
+        switch (status) {
+            case NOTHING_EQUIPPED:
+                return "Nothing is equipped so you cannot attack";
+
+            case USED:
+                enemy.hit(player.getCurrentWeapon().getDamage());
+                player.playerHit(enemy.getWeapon().getDamage());
+
+               if (enemy.getHealth() < 1) {
+                    Item droppedWeapon = enemy.getWeapon();
+                      player.getCurrentRoom().addItem(droppedWeapon);
+                      player.getCurrentRoom().removeEnemy(enemy);
+                      return "You just used the " + seeCurrentEquipped().getName() + " and dealt "
+                              + player.getCurrentWeapon().getDamage() +
+                              " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
+                              + enemy.getWeapon().getDamage() + " damage!" +
+                              "You defeated the enemy and it dropped a " + droppedWeapon.getName() +
+                              "\nYou now have " + player.getPlayerHealth() + " HP left.";
+               }
+               return "You just used the " + seeCurrentEquipped().getName() + " and dealt "
+                            + player.getCurrentWeapon().getDamage() +
+                            " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
+                            + enemy.getWeapon().getDamage() + " damage!" +
+                            "\nYou now have " + player.getPlayerHealth() + " HP left.";
+
+
+            case NO_AMMO_LEFT:
+                return "No uses left.";
+            default:
+
+                return "invalid input!";
+        }
+
+    }
+
+    public boolean playerDead() {
+        if (player.getPlayerHealth()<=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

@@ -40,7 +40,7 @@ public class Map {
 
         Room room1 = new Room("Room 1", "Large room, littered with pillars, torches and a few chests");
 
-        Weapon gorlokClub = new MeleeWeapon("Club", "Tree club", 10, 5);
+        Weapon gorlokClub = new MeleeWeapon("Club", "Tree club", 10);
         room1.addEnemy(new Enemy("Gorlok", "Giant, not very smart and very slow", gorlokClub, 10));
 
         room1.addItem(new Item("compass", "shows you the way you are headed"));
@@ -57,7 +57,7 @@ public class Map {
 
 
 
-        room2.addItem(new MeleeWeapon("sword", "Large sword, shiny and engraved with an unknown language", 10, 2));
+        room2.addItem(new MeleeWeapon("sword", "Large sword, shiny and engraved with an unknown language", 10));
 
         room2.addItem(new Food("apple", "a red fruit", 10));
 

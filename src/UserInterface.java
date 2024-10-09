@@ -45,11 +45,8 @@ public class UserInterface {
 
         while (true) {
 
-
             System.out.print("> ");
             command = scanner.nextLine().trim();
-
-
 
 
             String[] temp = command.split(" ");
@@ -81,14 +78,17 @@ public class UserInterface {
                     System.out.println("You look around and realize you are in " + adv.getCurrentRoomName() + "\nThe room can be described with the following: " + adv.getCurrentRoomDescription());
                     ArrayList<Item> inventory = adv.getPlayer().getCurrentRoom().getItems();
                     if (inventory.isEmpty()) {
-                        System.out.println("This room has nothing of importance in it..");
+                        System.out.println("This room has nothing of importance in it.." + "\n");
                     } else {
-                        System.out.println("There are following items in the room: ");
+                        System.out.println("There are following items in the room: " + "\n");
                         int counter = 0;
                         for (Item item : inventory) {
                             counter++;
-                            System.out.println(counter + "." + "a" + " " + item);
+                            System.out.println(counter + "." + " a" + " " + item);
                         }
+                    }
+                    if (adv.seeEnemies() != null) {
+                        System.out.println("There a following enemies in the room" + " " + adv.seeEnemies());
                     }
                     break;
 
@@ -117,8 +117,16 @@ public class UserInterface {
                             counter++;
                             System.out.println(" " + counter + " " + item);
                         }
+                        System.out.println(adv.seeCurrentEquipped());
+                        if (adventure.seeCurrentEquipped() == null) {
+                            System.out.println("you dont have a weapon equipped");
+                        }
+                        if (adv.seeCurrentEquipped() != null) {
+                            System.out.println("you currently have " + adv.seeCurrentEquipped());
+                        }
                     } else {
                         System.out.println("There is nothing in your inventory currently");
+                        System.out.println("you currently have " + adv.seeCurrentEquipped());
                     }
                     break;
 
@@ -127,7 +135,10 @@ public class UserInterface {
                     if (temp.length < 2) {
                         System.out.println("command not possible, instead try take + item name");
                     } else {
-                        System.out.println(adv.player.takeItem(temp[1]));
+                        String itemName = temp[1].trim();
+                        String result = adv.player.takeItem(itemName);
+                        System.out.println(result);
+
                     }
                     break;
 
@@ -170,16 +181,17 @@ public class UserInterface {
                     if (attackStatus == WeaponStatus.USED) {
                         System.out.println("you attacked " + enemy.getName() + " with " + adv.player.getCurrentEquippedItem());
                         System.out.println(enemy.getName() + " has " + enemy.getHealth() + " left ");
-                        if (enemy.getHealth() <= 0){
+                        if (enemy.getHealth() <= 0) {
                             System.out.println(enemy.getName() + " has perished and dropped " + enemy.getWeapon());
                             Weapon enemyWeapon = enemy.getWeapon();
                             adv.player.getCurrentRoom().removeEnemy(enemy);
                             adv.player.getCurrentRoom().addItem(enemyWeapon);
                         }
-                    } else if (attackStatus == WeaponStatus.NO_AMMO_LEFT){
+                    } else if (attackStatus == WeaponStatus.NO_AMMO_LEFT) {
                         System.out.println("Your " + adv.player.getCurrentEquippedItem() + " has no ammo.");
-                    } else if (attackStatus == WeaponStatus.NOTHING_EQUIPPED){
-                        System.out.println("You dont have anything equipped");}
+                    } else if (attackStatus == WeaponStatus.NOTHING_EQUIPPED) {
+                        System.out.println("You dont have anything equipped");
+                    }
                     break;
 
 
@@ -190,12 +202,12 @@ public class UserInterface {
 
 
                 case "exit":
+                    if (adv.playerDead() && command.equals("exit")) {
                     System.out.println("thanks for playing!");
                     scanner.close();
                     System.exit(0);
                     break;
-
-
+                }
 
 
                 default:

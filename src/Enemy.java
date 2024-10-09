@@ -52,4 +52,9 @@ public class Enemy {
     private void die () {
         System.out.println(name + " has died and drops " + weapon.getName());
     }
+    @Override
+    public String toString(){
+        return getName() + " description: " + getDescription() + getName() + " health is: " + getHealth() +
+                " and has: " + getWeapon().getName() + " as their weapon";
+    }
 }
