@@ -71,6 +71,8 @@ public class UserInterface {
                     System.out.println("- inventory: looks at your inventory and lists items in it.");
                     System.out.println("- eat: To eat a specific item by name.");
                     System.out.println("- health: To see current player health.");
+                    System.out.println("- attack <enemy name>: attacks enemy, if a weapon is equipped and there are enemies present, in current room");
+                    System.out.println("- equip <weapon name>: equips desired weapon, which can then be used to attack");
                     break;
 
 

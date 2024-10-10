@@ -42,41 +42,27 @@ public class Map {
 
         Weapon gorlokClub = new MeleeWeapon("Club", "Tree club", 10);
         room1.addEnemy(new Enemy("Gorlok", "Giant, not very smart and very slow", gorlokClub, 10));
-
         room1.addItem(new Item("compass", "shows you the way you are headed"));
-
-
         room1.addItem(new Food("apple", "a red fruit", 5));
-
-
-        room1.addItem(new RangedWeapon("Staff", "Staff of wither, with limited uses, withers the enemy, dealing high damage", 5, 10));
-
+        room1.addItem(new RangedWeapon("Staff", "Staff of wither, with limited uses, withers the enemy, dealing medium damage", 7.5, 10));
 
 
         Room room2 = new Room("Room 2", "Smaller room, resembling a cathedral, with a religious theme");
 
-
-
-        room2.addItem(new MeleeWeapon("sword", "Large sword, shiny and engraved with an unknown language", 10));
-
-        room2.addItem(new Food("apple", "a red fruit", 10));
-
+        room2.addItem(new MeleeWeapon("sword", "large sword, shiny and engraved with an unknown language", 5));
+        room2.addItem(new Food("Shroom", "a red and white mushroom", -1));
+        Weapon priestspellBook = new RangedWeapon("Book", "infused with holy incantations", 10, 3);
+        room2.addEnemy(new Enemy("Dihimir","proclaimed lord of salvation", priestspellBook, 30));
 
 
 
         Room room3 = new Room("Room 3", "Open area, forest-like, with trees and a bridge to pass the river throwing through the land");
 
-
-
-
-        room3.addItem(new Item("apple", "red apple, nutritional, restores hp"));
-
-
-
-
-
-
-
+        room3.addItem(new RangedWeapon("Damnation", "a singe-use spell of extreme power, banishes the enemy to a unknown foreign plane of existence", 50, 1));
+        room3.addItem(new Food("Shroom", "a red and white mushroom", -1));
+        room3.addItem(new Food("Potion", "potion of life, said to restore large amounts of health", 25));
+        Weapon spearOfeternity = new MeleeWeapon("Spear", "spear of the outer gods, said to from before the land of Dungeons", 10);
+        room3.addEnemy(new Enemy("Doran","son of Horan, slayer of gods", spearOfeternity, 50));
 
 
         Room room4 = new Room("Room 4", "Passing over the bridge, you get deeper into the forest, it gets darker and the trees larger");
