@@ -13,7 +13,7 @@ public class UserInterface {
 
 
         System.out.println("------------------------------------------------------------------------------------------------------");
-        System.out.println("Welcome to the adventure game!");
+        System.out.println("Welcome to Master of Dungeons!");
         System.out.println("You are in " + adv.getCurrentRoomName());
         System.out.println(adv.getCurrentRoomDescription());
 
