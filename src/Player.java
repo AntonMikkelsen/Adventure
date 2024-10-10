@@ -7,27 +7,26 @@ public class Player {
     private Room currentRoom;
     ArrayList<Item> inventory = new ArrayList<>();
     private ArrayList<Item> equipped = new ArrayList<>();
-    private double health = 50;
+    private double health;
     private final double maxHealth;
     private Weapon currentEquipped;
-    private Boolean playerDead = false;
+    private boolean playerDead;
 
 
 
 
     public Player(Room firstRoom, double health){
-        this.health = 50;
+        this.health = 5;
         this.maxHealth = health;
         currentRoom = firstRoom;
         this.inventory = new ArrayList<>();
+        this.playerDead = false;
     }
 
 
     public ArrayList<Item> getEquipped() {
         return equipped;
     }
-
-
 
 
     public Room getCurrentRoom(){
@@ -58,11 +57,9 @@ public class Player {
     public double getPlayerHealth() {
         return health;
     }
-
     public void playerHit(double playerHitDamage){
         health -= playerHitDamage;
     }
-
 
     public double eat (Food food){
         health += food.getHealth();
@@ -71,7 +68,6 @@ public class Player {
         if (health > 50){
             health = 50;
         }
-
 
         return health;
     }
@@ -154,7 +150,7 @@ public class Player {
             equipped.add(weapon);
             currentEquipped = weapon;
             return WeaponStatus.WEAPON;
-        } else { //if (!(weaponEquip instanceof Weapon))
+        } else {
             return WeaponStatus.NOT_WEAPON;
         }
     }
@@ -202,9 +198,10 @@ public class Player {
 
     }
 
-    public void isPlayerDead() {
-        if (getPlayerHealth() < 0) {
-            playerDead = true;
+    public boolean isPlayerDead() {
+        if (health < 0) {
+           return playerDead = true;
         }
+        return false;
     }
 }

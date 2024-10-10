@@ -1,6 +1,6 @@
+
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 public class UserInterface {
     private Adventure adventure;
@@ -151,7 +151,6 @@ public class UserInterface {
                     }
                     break;
 
-
                 case "equip":
                     if (temp.length > 2) {
                         System.out.println("command not possible, instead try equip + item name");
@@ -166,53 +165,70 @@ public class UserInterface {
                             System.out.println(weaponName + " is not a weapon.");
                         }
                     }
-//                    break;
-//                        System.out.println(adv.player.equip(temp[1]));}
                     break;
 
 
                 case "attack":
-                    Enemy enemy = adv.player.getCurrentRoom().getEnemy();
-                    if (enemy == null) {
-                        System.out.println("there are no enemies to attack here");
-                        break;
-                    }
-                    WeaponStatus attackStatus = adv.getPlayer().attack();
-                    if (attackStatus == WeaponStatus.USED) {
-                        System.out.println("you attacked " + enemy.getName() + " with " + adv.player.getCurrentEquippedItem());
-                        System.out.println(enemy.getName() + " has " + enemy.getHealth() + " left ");
-                        if (enemy.getHealth() <= 0) {
-                            System.out.println(enemy.getName() + " has perished and dropped " + enemy.getWeapon());
-                            Weapon enemyWeapon = enemy.getWeapon();
-                            adv.player.getCurrentRoom().removeEnemy(enemy);
-                            adv.player.getCurrentRoom().addItem(enemyWeapon);
+                    if (command.startsWith("attack")) {
+                        String attackName = command.substring(7).trim();
+                        if (!attackName.isEmpty()) {
+                            Enemy target = null;
+                            for (Enemy enemy : adv.player.getCurrentRoom().getEnemies()) {
+                                if (enemy.getName().equalsIgnoreCase(attackName)) {
+                                    target = enemy;
+                                    break;
+                                }
+                            }
+                            if (target != null) {
+                                String attackResult = adv.attack(target);
+                                System.out.println(attackResult);
+                            } else {
+                                System.out.println("There is no enemy like that in this room");
+                            }
                         }
-                    } else if (attackStatus == WeaponStatus.NO_AMMO_LEFT) {
-                        System.out.println("Your " + adv.player.getCurrentEquippedItem() + " has no ammo.");
-                    } else if (attackStatus == WeaponStatus.NOTHING_EQUIPPED) {
-                        System.out.println("You dont have anything equipped");
                     }
-                    break;
+
+//                    Enemy enemy = adv.player.getCurrentRoom().getEnemy();
+//                    WeaponStatus playerAttack = adv.player.attack();
+//                    if(enemy != null){
+//                        System.out.println("there's and enemy in the room");
+//                        System.out.println(enemy.getName() + " appears");
 
 
-//                    if (temp.length > 2) {
-//                        System.out.println("command not possible, instead try take + item name");
-//                    } else {
-//                        System.out.println(adv.player.attack());}
 
+
+//                    if (enemy == null) {
+//                        System.out.println("there are no enemies to attack here");
+//                        break;
+//                    }
+//                    WeaponStatus attackStatus = adv.getPlayer().attack();
+//                    if (attackStatus == WeaponStatus.USED) {
+//                        System.out.println("you attacked " + enemy.getName() + " with " + adv.player.getCurrentEquippedItem());
+//                        System.out.println(enemy.getName() + " has " + enemy.getHealth() + " left ");
+//                        if (enemy.getHealth() <= 0) {
+//                            System.out.println(enemy.getName() + " has perished and dropped " + enemy.getWeapon());
+//                            Weapon enemyWeapon = enemy.getWeapon();
+//                            adv.player.getCurrentRoom().removeEnemy(enemy);
+//                            adv.player.getCurrentRoom().addItem(enemyWeapon);
+//                        }
+//                    } else if (attackStatus == WeaponStatus.NO_AMMO_LEFT) {
+//                        System.out.println("Your " + adv.player.getCurrentEquippedItem() + " has no ammo.");
+//                    } else if (attackStatus == WeaponStatus.NOTHING_EQUIPPED) {
+//                        System.out.println("You dont have anything equipped");
+//                    }
+//                    break;
 
                 case "exit":
-                    if (adv.playerDead() && command.equals("exit")) {
+                    if ((!adv.playerDead()) || command.equals("exit")) {
                     System.out.println("thanks for playing!");
                     scanner.close();
                     System.exit(0);
                     break;
                 }
 
-
-                default:
-                    System.out.println("Invalid direction! Type 'help' for a list of commands.");
-                    break;
+//                default:
+//                    System.out.println("Invalid direction! Type 'help' for a list of commands.");
+//                    break;
             }
         }
     }

@@ -1,44 +1,28 @@
 import java.io.ObjectInputStream;
 import java.util.Scanner;
 
-
-
-
 public class Adventure {
     private Map map;
     Player player;
-
-
-
 
     public Adventure() {
         map = new Map();
         player = new Player(map.getCurrentRoom(), 50);
     }
 
-
-
-
     public Player getPlayer() {
         return player;
     }
-
-
-
 
     public Room move(String direction) {
         return player.move(direction);
     }
 
-
-
-
     public String getCurrentRoomName() {
         return player.getCurrentRoom().getName();
     }
 
-
-    public double seeHealth(){
+    public double getPlayerHealth(){
         return player.getPlayerHealth();
     }
 
@@ -50,8 +34,8 @@ public class Adventure {
     public String eat(String foodName) {
         FoodType status = player.eat(foodName);
         return switch (status) {
-            case GOOD -> "You ate the " + foodName + "!" + " You gained " + player.getPlayerHealth() + " healthpoints.";
-            case BAD -> "That wasn't good..." + "you just lost health :( Current health:" + player.getPlayerHealth() + " healthpoints";
+            case GOOD -> "You ate the " + foodName + "!" + " You gained " + getPlayerHealth() + " healthpoints.";
+            case BAD -> "That wasn't good..." + "you just lost health :( Current health:" + getPlayerHealth() + " healthpoints";
             case NOT_FOOD -> "You cannot eat that!";
             case NOT_HERE -> "There is no such thing as " + foodName + " in your inventory or in this room.";
             default -> "Invalid input!";
@@ -97,16 +81,16 @@ public class Adventure {
                       player.getCurrentRoom().removeEnemy(enemy);
                       return "You just used the " + seeCurrentEquipped().getName() + " and dealt "
                               + player.getCurrentWeapon().getDamage() +
-                              " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
+                              " damage to the " + enemy.getName() + ". Yet " + enemy.getName() + " retaliates, striking back dealing: "
                               + enemy.getWeapon().getDamage() + " damage!" +
-                              "You defeated the enemy and it dropped a " + droppedWeapon.getName() +
-                              "\nYou now have " + player.getPlayerHealth() + " HP left.";
+                              "\nYou defeated the enemy and it dropped a " + droppedWeapon.getName() +
+                              "\n The battle was fierce, you now have " + getPlayerHealth() + " HP left.";
                }
                return "You just used the " + seeCurrentEquipped().getName() + " and dealt "
                             + player.getCurrentWeapon().getDamage() +
                             " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
                             + enemy.getWeapon().getDamage() + " damage!" +
-                            "\nYou now have " + player.getPlayerHealth() + " HP left.";
+                            "\nYou now have " + getPlayerHealth() + " HP left.";
 
 
             case NO_AMMO_LEFT:
@@ -119,9 +103,9 @@ public class Adventure {
     }
 
     public boolean playerDead() {
-        if (player.getPlayerHealth()<=0){
+        if(player.getPlayerHealth() <= 0){
             return true;
-        }else{
+        }else {
             return false;
         }
     }

@@ -11,7 +11,6 @@ public class Enemy {
         this.description = description;
         this.weapon = weapon;
         this.health = health;
-
     }
 
     public double getHealth(){
@@ -31,9 +30,9 @@ public class Enemy {
     }
 
     public void attack (Player player){
-        double weaponDamage = getWeapon().getDamage();
+        double weaponDamage = weapon.getDamage();
         if (health < 0){
-            System.out.println("Enemy attacks you, hitting for " + weaponDamage + "your health is now at " + player.getPlayerHealth());
+            System.out.println("Enemy attacks you, hitting for " + weaponDamage + " your health is now at " + player.getPlayerHealth());
             player.decreaseHealth(weaponDamage);
         } else {
             System.out.println("Player is dead");
