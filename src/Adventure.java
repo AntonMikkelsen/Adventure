@@ -75,7 +75,7 @@ public class Adventure {
                 enemy.hit(player.getCurrentWeapon().getDamage());
                 player.playerHit(enemy.getWeapon().getDamage());
 
-               if (enemy.getHealth() < 1) {
+               if (enemy.getHealth() < 0) {
                     Item droppedWeapon = enemy.getWeapon();
                       player.getCurrentRoom().addItem(droppedWeapon);
                       player.getCurrentRoom().removeEnemy(enemy);
@@ -91,7 +91,6 @@ public class Adventure {
                             " damage to the " + enemy.getName() + ". But the " + enemy.getName() + " strikes back dealing: "
                             + enemy.getWeapon().getDamage() + " damage!" +
                             "\nYou now have " + getPlayerHealth() + " HP left.";
-
 
             case NO_AMMO_LEFT:
                 return "No uses left.";
